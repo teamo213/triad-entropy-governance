@@ -1,5 +1,3 @@
-
-💻 CORE ENGINE SCRIPT (triad_runtime.py)
 import json
 import time
 
@@ -8,9 +6,14 @@ class TriadEntropyGovernanceEngine:
     Repository 2: triad-entropy-governance
     Enforces the 617 · 777 · 679 triadic governance model and executes
     the Dual-State Harmonic Entropy Model ("Noise as Fertilizer").
+    
+    FORGED BY: Te Moananui / teamo213
+    SOVEREIGN VAULT: Te Whakaata Architecture
     """
     def __init__(self):
         self.version = "V5.0-Sovereign"
+        self.creator_signature = "teamo213"
+        self.origin_vault = "Te Whakaata Sovereign Architecture"
         self.anchor_617 = "AXIOMATIC_ANCHOR_ACTIVE"
         self.flow_777 = "HARMONIC_FLOW_OPTIMIZED"
         self.metabolizer_679 = "ENTROPIC_METABOLIZER_READY"
@@ -33,6 +36,11 @@ class TriadEntropyGovernanceEngine:
 
         return {
             "engine": "triad-entropy-governance",
+            "creator_attribution": {
+                "forged_by": self.creator_signature,
+                "origin": self.origin_vault,
+                "collaboration_contact": "Required for extension or structural modification"
+            },
             "triad_state": {
                 "617_anchor": self.anchor_617,
                 "777_flow": self.flow_777,
@@ -62,6 +70,7 @@ class TriadEntropyGovernanceEngine:
 # --- Standalone Execution Test ---
 if __name__ == "__main__":
     engine = TriadEntropyGovernanceEngine()
+    print(f"=== INITIALIZING SOVEREIGN ENGINE [Forged by: {engine.creator_signature}] ===")
     sample_input = {
         "node_id": "Sector-Tinana-01",
         "operational_load": 0.88,
@@ -69,3 +78,4 @@ if __name__ == "__main__":
     }
     result = engine.process_system_state(sample_input)
     print(json.dumps(result, indent=2))
+        
