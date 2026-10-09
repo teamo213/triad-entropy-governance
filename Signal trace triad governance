@@ -1,0 +1,43 @@
+{
+  "te_whakaata_trace": {
+    "trace_id": "TW-2026-10-09-001",
+    "node_id": "Sector-Tinana-01",
+    "timestamp_utc": "2026-10-09T06:45:12.337891Z",
+    "event_type": "governance_decision",
+    "triadic_audit_trace": [
+      {
+        "gate": 617,
+        "name": "Axiomatic Anchor",
+        "input_hash": "a1b2c3d4e5f6...",
+        "output_hash": "[STRIPPED 65 bytes]",
+        "status": "lineage_verified",
+        "policy_ref": "sector/tinana/v1.0"
+      },
+      {
+        "gate": 777,
+        "name": "Harmonic Flow", 
+        "input_hash": "[STRIPPED 65 bytes]",
+        "output_hash": "[STRIPPED 65 bytes]",
+        "status": "transformed",
+        "entropy_in": 0.847,
+        "entropy_out": 0.123
+      },
+      {
+        "gate": 679,
+        "name": "Entropic Metabolizer",
+        "input_hash": "[STRIPPED 65 bytes]",
+        "output_hash": "[STRIPPED 67 bytes]",
+        "status": "energy_recovered",
+        "waste_metabolized": 0.724
+      }
+    ],
+    "master_chain_hash": "[STRIPPED 65 bytes]",
+    "forged_by": "teamo213",
+    "doctrine": "No black boxes. Every decision hash-chained."
+  },
+  "verification_instructions": {
+    "method": "verify_triadic_chain()",
+    "spec": "SHA256(concat(gate_617.output_hash, gate_777.output_hash, gate_679.output_hash)) == master_chain_hash",
+    "expected_result": true
+  }
+}
