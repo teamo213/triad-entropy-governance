@@ -1,0 +1,72 @@
+import json
+import re
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+
+def test_nz_data_residency_check():
+    """
+    Test: Did you write NZ/iwi terms in the mana source field?
+    LIMIT: This does NOT check where data physically lives or if iwi actually gave mandate.
+    It only checks your record-keeping.
+    """
+    trace_path = REPO_ROOT / "examples" / "signed_trace.json"
+    with open(trace_path, 'r') as f:
+        trace = json.load(f)
+
+    assert isinstance(trace, dict), "Root trace must be JSON object"
+    assert "policy_bundle" in trace, "No policy bundle found"
+    policy = trace["policy_bundle"]
+    assert isinstance(policy, dict), "policy_bundle must be object"
+    assert "mana_source" in policy, "Mana source not declared"
+    mana = policy["mana_source"]
+    assert isinstance(mana, str), "Mana source must be string"
+    assert mana.strip()!= "", "Mana source is empty string"
+
+    nz_terms = [
+        r'\biwi\b', r'\bhapū\b', r'\bwhānau\b', r'\brūnanga\b',
+        r'\baotearoa\b', r'\bnew zealand\b', r'\bte tiriti\b'
+    ]
+    mana_normalized = mana.casefold()
+    assert any(re.search(term, mana_normalized) for term in nz_terms), \
+        f"Mana source '{mana}' does not contain recognized NZ/iwi terms"
+
+def test_te_tiriti_kaitiaki_named():
+    """
+    Test: Did you write a Kaitiaki name?
+    LIMIT: This does NOT check if that person has real authority or a crypto signature.
+    It only checks you named someone.
+    """
+    trace_path = REPO_ROOT / "examples" / "signed_trace.json"
+    with open(trace_path, 'r') as f:
+        trace = json.load(f)
+
+    assert isinstance(trace, dict), "Root trace must be JSON object"
+    assert "kaitiaki_attestation" in trace, "No Kaitiaki — fails Te Tiriti Article 2"
+    kaitiaki = trace["kaitiaki_attestation"]
+    assert isinstance(kaitiaki, dict), "kaitiaki_attestation must be object"
+    assert "kaitiaki_name" in kaitiaki, "Kaitiaki not named"
+    name = kaitiaki["kaitiaki_name"]
+    assert isinstance(name, str), "Kaitiaki name must be string"
+    assert name.strip()!= "", "Kaitiaki name empty"
+
+def test_policy_record_check():
+    """
+    Test: Did you write a policy_id and ratified_by?
+    LIMIT: This does NOT check if the policy is legally valid under Privacy Act 2020.
+    It only checks the fields exist.
+    """
+    trace_path = REPO_ROOT / "examples" / "signed_trace.json"
+    with open(trace_path, 'r') as f:
+        trace = json.load(f)
+
+    assert isinstance(trace, dict), "Root trace must be JSON object"
+    assert "policy_bundle" in trace, "No policy — no purpose declared"
+    policy = trace["policy_bundle"]
+    assert isinstance(policy, dict), "policy_bundle must be object"
+    assert "policy_id" in policy, "Purpose not declared"
+    policy_id = policy["policy_id"]
+    assert isinstance(policy_id, str) and policy_id.strip()!= "", "Policy ID invalid"
+    assert "ratified_by" in policy, "No ratifier — fails accountability record"
+    ratifier = policy["ratified_by"]
+    assert isinstance(ratifier, str) and ratifier.strip()!= "", "Ratifier invalid"
